@@ -338,7 +338,16 @@ static int get_first_track_of_type( lsmash_handler_t *h, uint32_t type )
         hp->vdh.config.ctx = ctx;
     else
         hp->adh.config.ctx = ctx;
-    AVCodec *codec = avcodec_find_decoder( ctx->codec_id );
+    enum AVCodecID codec_id = ctx->codec_id;
+    if( codec_id == AV_CODEC_ID_NONE )
+    {
+        /* Try to get any valid codec_id from summaries. */
+        codec_configuration_t *config = type == AVMEDIA_TYPE_VIDEO ? &hp->vdh.config : &hp->adh.config;
+        for( i = 0; i < config->count && codec_id == AV_CODEC_ID_NONE; i++ )
+            codec_id = get_codec_id_from_description( config->entries[i].summary );
+        ctx->codec_id = codec_id;
+    }
+    AVCodec *codec = avcodec_find_decoder( codec_id );
     if( !codec )
     {
         DEBUG_MESSAGE_BOX_DESKTOP( MB_ICONERROR | MB_OK, "Failed to find %s decoder.", codec->name );

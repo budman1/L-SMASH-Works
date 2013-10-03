@@ -75,6 +75,7 @@ static inline uint32_t get_decoder_delay( AVCodecContext *ctx )
 }
 
 int get_summaries( lsmash_root_t *root, uint32_t track_ID, codec_configuration_t *config );
+enum AVCodecID get_codec_id_from_description( lsmash_summary_t *summary );
 int initialize_decoder_configuration( lsmash_root_t *root, uint32_t track_ID, codec_configuration_t *config );
 int get_sample( lsmash_root_t *root, uint32_t track_ID, uint32_t sample_number, codec_configuration_t *config, AVPacket *pkt );
 void update_configuration( lsmash_root_t *root, uint32_t track_ID, codec_configuration_t *config );

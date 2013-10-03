@@ -76,7 +76,7 @@ fail:
     return -1;
 }
 
-static enum AVCodecID get_codec_id_from_description( lsmash_summary_t *summary )
+enum AVCodecID get_codec_id_from_description( lsmash_summary_t *summary )
 {
     lsmash_codec_type_t sample_type = summary->sample_type;
 #define ELSE_IF_GET_CODEC_ID_FROM_CODEC_TYPE( codec_id, codec_type )        \
